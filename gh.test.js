@@ -1,23 +1,24 @@
 let page;
 
 beforeEach(async () => {
-  
-  page = await browser.newPage(); 
-  await page.goto("https://github.com/team");
-  await page.setDefaultTimeout(); 
+   page = await browser.newPage(); 
+   await page.setDefaultTimeout(); 
 });
 
 afterEach(() => {
   page.close();
 });
 
-/*describe("Github page tests", () => {
+describe("Github page tests", () => {
+  beforeEach(async () => {
+   await page.goto("https://github.com/team");
+ });
   test("The h1 header content'", async () => {
     const firstLink = await page.$("header div div a");
     await firstLink.click();
     await page.waitForSelector('h1');
     const title2 = await page.title();
-    expect(title2).toEqual('Build and ship software on a single, collaborative platform');
+    expect(title2).toEqual("GitHub · Build and ship software on a single, collaborative platform · GitHub");
   }, 80000);
 
   test("The first link attribute", async () => {
@@ -33,26 +34,41 @@ afterEach(() => {
     const actual = await page.$eval(btnSelector, link => link.textContent);
     expect(actual).toContain("Get started with Team")
   }, 30000);
-});  */
+});  
 
-describe("link create a free organization", () => {
+describe("page gitHub home", () => {
   beforeEach(async () => {
-    page2 = await browser.newPage();
-    await page2.goto("https://github.com/home");   
-    await page2.setDefaultTimeout();
+    page = await browser.newPage();
+    await page.goto("https://github.com/home");  
   });
 
   
   test("The h1 header content page home", async () => {
-    const actual = await page2.$eval("#hero-section-brand-heading", (link) => link.textContent);
+    const expected = ("Build and ship software on a single, collaborative platform");
+    const actual = await page.$eval("#hero-section-brand-heading", (link) => link.textContent);
     console.log(actual);
-    await expect(actual).toEqual("Build and ship software on a single, collaborative platform");
-    page.close();
-  }, 60000);
-
-  test("text button try copilot page home", async () => {
-    const actual = await page2.$eval(".Primer_Brand__Button-module__Button___lDruK.Primer_Brand__Button-module__Button--primary___xIC7G.Primer_Brand__Button-module__Button--size-medium___EyCyw.CtaForm-primaryAction.js-hero-action", (link) => link.textContent);
-    console.log(actual);
-    await expect(actual).toEqual("Try GitHub Copilot");
+    await expect(actual).toEqual(expected);
   }, 30000);
+
+  test("button Sign up for GitHub text", async () => {
+    const expected = ("Sign up for GitHub");
+    const actual = await page.$eval(".Primer_Brand__Button-module__Button___lDruK.Primer_Brand__Button-module__Button--primary___xIC7G.Primer_Brand__Button-module__Button--size-medium___EyCyw.CtaForm-primaryAction.js-hero-action", (link) => link.textContent);
+    console.log(actual);
+    await expect(actual).toEqual(expected);
+  }, 30000);
+  test("button Try GitHub Copilot text", async () => {
+    const expected = ("Try GitHub Copilot");
+    const actual = await page.$eval(".Primer_Brand__Button-module__Button___lDruK.Primer_Brand__Button-module__Button--secondary___akMC2.Primer_Brand__Button-module__Button--size-medium___EyCyw.CtaForm-secondaryAction.js-hero-action", (link) => link.textContent);
+    console.log(actual);
+    await expect(actual).toEqual(expected);
+  }, 30000);
+  test("title page2", async () => {
+    const expected = ("GitHub · Build and ship software on a single, collaborative platform · GitHub");
+    await page.click(".octicon.octicon-mark-github");
+    const title = await page.title();
+    console.log (title);
+    await expect(title).toEqual(expected);
+  }, 90000);
+
+
 });
